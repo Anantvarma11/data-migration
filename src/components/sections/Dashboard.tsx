@@ -4,6 +4,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -28,6 +29,13 @@ const strategies = [
         path: '/bulk-file-data',
         icon: <CloudUploadIcon sx={{ fontSize: 60 }} color="info" />,
         color: '#e1f5fe'
+    },
+    {
+        title: 'CDC & Streaming',
+        description: 'Transform rigid streams to serverless CDC & Pub/Sub pipelines.',
+        path: '/cdc-streaming',
+        icon: <SyncAltIcon sx={{ fontSize: 60 }} color="success" />,
+        color: '#e8f5e9'
     },
     {
         title: 'Lift-and-Shift',

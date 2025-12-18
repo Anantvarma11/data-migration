@@ -19,6 +19,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 280;
@@ -35,6 +36,7 @@ const menuItems = [
     { text: 'Transactional DB', path: '/transactional-db', icon: <StorageIcon /> },
     { text: 'Data Warehouse', path: '/data-warehouse', icon: <AnalyticsIcon /> },
     { text: 'Bulk File Data', path: '/bulk-file-data', icon: <CloudUploadIcon /> },
+    { text: 'CDC & Streaming', path: '/cdc-streaming', icon: <SyncAltIcon /> },
     { text: 'Lift-and-Shift', path: '/lift-and-shift', icon: <CloudQueueIcon /> },
 ];
 

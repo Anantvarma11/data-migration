@@ -7,6 +7,7 @@ import { Dashboard } from './components/sections/Dashboard';
 import { TransactionalDB } from './components/sections/TransactionalDB';
 import { DataWarehouse } from './components/sections/DataWarehouse';
 import { BulkFileData } from './components/sections/BulkFileData';
+import { CDCStreaming } from './components/sections/CDCStreaming';
 import { LiftAndShift } from './components/sections/LiftAndShift';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
                         <Route path="transactional-db" element={<TransactionalDB />} />
                         <Route path="data-warehouse" element={<DataWarehouse />} />
                         <Route path="bulk-file-data" element={<BulkFileData />} />
+                        <Route path="cdc-streaming" element={<CDCStreaming />} />
                         <Route path="lift-and-shift" element={<LiftAndShift />} />
                     </Route>
                 </Route>
