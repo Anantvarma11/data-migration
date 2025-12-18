@@ -9,10 +9,10 @@ import {
     Toolbar,
     Divider,
     Box,
-    Typography,
 } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import HomeIcon from '@mui/icons-material/Home';
 import StorageIcon from '@mui/icons-material/Storage';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -32,7 +32,8 @@ interface SidebarProps {
 }
 
 const menuItems = [
-    { text: 'Dashboard', path: '/', icon: <DashboardIcon /> },
+    { text: 'Home', path: '/', icon: <HomeIcon /> },
+    { text: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     { text: 'Transactional DB', path: '/transactional-db', icon: <StorageIcon /> },
     { text: 'Data Warehouse', path: '/data-warehouse', icon: <AnalyticsIcon /> },
     { text: 'Bulk File Data', path: '/bulk-file-data', icon: <CloudUploadIcon /> },
@@ -64,9 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, onClose, variant, sx }) 
             }}
         >
             <Toolbar>
-                <Typography variant="h6" noWrap component="div" sx={{ color: 'primary.main', fontWeight: 'bold' }}>
-                    Migration Platform
-                </Typography>
+                <Box component="img" src="/epath-logo-v2.png" alt="ePathUSA" sx={{ maxHeight: 40, width: 'auto' }} />
             </Toolbar>
             <Divider />
             <Box sx={{ overflow: 'auto', display: 'flex', flexDirection: 'column', height: '100%' }}>

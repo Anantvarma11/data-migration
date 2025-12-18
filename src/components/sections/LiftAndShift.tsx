@@ -1,9 +1,7 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button, Paper } from '@mui/material';
-import ComputerIcon from '@mui/icons-material/Computer';
-import CloudSyncIcon from '@mui/icons-material/CloudSync';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Box, Typography, Grid, Paper, List, ListItem, ListItemIcon, ListItemText, Chip } from '@mui/material';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SecurityIcon from '@mui/icons-material/Security';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
@@ -15,25 +13,33 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
-const ProcessStep = ({ title, icon, description }: { title: string, icon: React.ReactNode, description?: string }) => (
-    <Paper elevation={3} sx={{ p: 2, minWidth: 200, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <Box sx={{ color: 'primary.main', mb: 1 }}>{icon}</Box>
-        <Typography variant="subtitle1" fontWeight="bold">{title}</Typography>
-        {description && <Typography variant="caption" color="text.secondary">{description}</Typography>}
-    </Paper>
+const StrategyPoint = ({ text }: { text: string }) => (
+    <ListItem>
+        <ListItemIcon>
+            <VerifiedUserIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+    </ListItem>
 );
 
-const Connector = ({ label }: { label?: string }) => (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', px: 1 }}>
-        {label && <Typography variant="caption" sx={{ mb: 0.5 }}>{label}</Typography>}
-        <ArrowRightIcon fontSize="large" color="action" />
-    </Box>
+const LayerBox = ({ number, title, content }: { number: number, title: string, content: string[] }) => (
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderLeft: 6, borderColor: 'primary.main', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2, flexShrink: 0 }}>
+            {number}
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1" fontWeight="bold">{title}</Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+                {content.map(c => <Chip key={c} label={c} size="small" variant="outlined" />)}
+            </Box>
+        </Box>
+    </Paper>
 );
 
 const PhaseStep = ({ number, title, description, icon }: { number: number, title: string, description: string, icon: React.ReactNode }) => (
     <Box sx={{ mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-            <Box sx={{ mr: 1, mt: 0.5, color: '#01579b' }}> {/* Dark Blue for Lift & Shift */}
+            <Box sx={{ mr: 1, mt: 0.5, color: '#01579b' }}> {/* Light Blue for Lift & Shift */}
                 {icon}
             </Box>
             <Box>
@@ -56,73 +62,56 @@ export const LiftAndShift: React.FC = () => {
             </Typography>
 
             <Grid container spacing={4}>
-                <Grid size={{ xs: 12, md: 4 }}>
+                <Grid size={{ xs: 12, md: 5 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                         Strategy Overview
                     </Typography>
-                    <Card sx={{ mb: 2 }}>
-                        <CardContent>
-                            <Typography variant="h6" color="primary">Objective</Typography>
-                            <Typography variant="body1">Speed-first rehost using Migrate for Virtual Machines (M4VM).</Typography>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{ mb: 2 }}>
-                        <CardContent>
-                            <Typography variant="h6" color="secondary">Replication</Typography>
-                            <Typography variant="body1">Continuous background replication with minimal performance impact.</Typography>
-                        </CardContent>
-                    </Card>
-                    <Card sx={{ mb: 2 }}>
-                        <CardContent>
-                            <Typography variant="h6" color="warning.main">Validation</Typography>
-                            <Typography variant="body1">Mandatory test-clone validation before cutover.</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 8 }}>
-                    <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                        Migration Lifecycle
-                    </Typography>
-                    <Paper variant="outlined" sx={{ p: 4, bgcolor: '#fff', overflowX: 'auto' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 600 }}>
-                            <ProcessStep title="On-Prem VM" icon={<ComputerIcon fontSize="large" />} />
-
-                            <Connector label="Replication" />
-
-                            <ProcessStep title="Replicated Data" icon={<CloudSyncIcon fontSize="large" />} />
-
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mx: 2 }}>
-                                <Box sx={{ height: 40, borderLeft: '2px dashed #999' }} />
-                                <Paper sx={{ p: 1, mt: 1, bgcolor: '#fff3e0', border: '1px solid #ffb74d' }}>
-                                    <Typography variant="caption" fontWeight="bold">Test Clone</Typography>
-                                </Paper>
-                            </Box>
-
-                            <Connector label="Cutover" />
-
-                            <ProcessStep title="Live CE VM" icon={<FlightTakeoffIcon fontSize="large" color="success" />} />
-                        </Box>
+                    <Paper sx={{ p: 2 }}>
+                        <List>
+                            <StrategyPoint text="Speed-first rehost using Migrate for Virtual Machines (M4VM)" />
+                            <StrategyPoint text="Continuous background replication with minimal performance impact" />
+                            <StrategyPoint text="Mandatory test-clone validation before cutover" />
+                        </List>
                     </Paper>
 
                     <Box sx={{ mt: 4 }}>
                         <Typography variant="h6" gutterBottom>
                             Core Tools
                         </Typography>
-                        <Grid container spacing={2}>
-                            {['Migrate to Virtual Machines (M4VM)', 'Migration Center', 'Cloud Operations Suite', 'Terraform (IaC)'].map((tool) => (
-                                <Grid key={tool} size={{ xs: 12, sm: 6 }}>
-                                    <Button variant="outlined" fullWidth color="inherit" sx={{ justifyContent: 'flex-start', textTransform: 'none' }}>
-                                        {tool}
-                                    </Button>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
+                            <Chip label="Migrate to Virtual Machines (M4VM)" color="primary" />
+                            <Chip label="Migration Center" color="primary" />
+                            <Chip label="Terraform (IaC)" color="primary" />
+                        </Box>
+                    </Box>
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 7 }}>
+                    <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+                        Migration Lifecycle
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <LayerBox number={1} title="On-Prem VM" content={['Source VM']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
+
+                            <LayerBox number={2} title="Replicated Data" content={['Test Clone', 'Replication']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
+
+                            <LayerBox number={3} title="Live CE VM" content={['Compute Engine']} />
+                        </Box>
+
+                        {/* Side Labels */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
+                            <Paper sx={{ p: 1, bgcolor: '#e1f5fe', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">Cloud Operations Suite</Typography>
+                            </Paper>
+                        </Box>
                     </Box>
                 </Grid>
             </Grid>
 
-            {/* NEW: Four-Phase Process Section */}
+            {/* Four-Phase Process Section */}
             <Box sx={{ mt: 8, mb: 6 }}>
                 <Typography variant="h4" gutterBottom sx={{ color: '#01579b', mb: 4, textAlign: 'center', fontWeight: 600 }}>
                     The Four-Phase Process for Lift-and-Shift VM Migration

@@ -6,7 +6,6 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 
 const strategies = [
     {
@@ -48,14 +47,10 @@ const strategies = [
 
 export const Dashboard: React.FC = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
 
     return (
         <Box>
             <Box sx={{ mb: 6, textAlign: 'center' }}>
-                <Typography variant="h3" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                    Welcome {user?.displayName || user?.username || 'User'}
-                </Typography>
                 <Typography variant="h5" color="text.secondary" sx={{ fontWeight: 500, mb: 2 }}>
                     Specialized Migration Services
                 </Typography>

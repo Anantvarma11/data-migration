@@ -1,48 +1,45 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Paper, Chip } from '@mui/material';
-import StorageIcon from '@mui/icons-material/Storage';
-import RouterIcon from '@mui/icons-material/Router';
-import SettingsInputAntennaIcon from '@mui/icons-material/SettingsInputAntenna';
-import WavesIcon from '@mui/icons-material/Waves';
-import CloudIcon from '@mui/icons-material/Cloud';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Typography, Grid, Paper, List, ListItem, ListItemIcon, ListItemText, Chip } from '@mui/material';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import DomainIcon from '@mui/icons-material/Domain';
 import CodeIcon from '@mui/icons-material/Code';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import SpeedIcon from '@mui/icons-material/Speed';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import SyncAltIcon from '@mui/icons-material/SyncAlt';
 
-const StrategyCard = ({ title, content }: { title: string, content: string }) => (
-    <Card sx={{ mb: 2, height: '100%' }}>
-        <CardContent>
-            <Typography variant="h6" color="success.main" gutterBottom>
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {content}
-            </Typography>
-        </CardContent>
-    </Card>
+const StrategyPoint = ({ text }: { text: string }) => (
+    <ListItem>
+        <ListItemIcon>
+            <VerifiedUserIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+    </ListItem>
 );
 
-const ArchitectureNode = ({ icon, label, subLabel, color = "default" }: { icon: React.ReactNode, label: string, subLabel?: string, color?: "default" | "primary" | "secondary" | "success" | "warning" }) => (
-    <Paper elevation={3} sx={{ p: 1.5, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 100, bgcolor: 'white', border: color === 'success' ? '2px solid #2e7d32' : 'none' }}>
-        <Box sx={{ color: color === 'success' ? 'success.main' : 'primary.main', mb: 1 }}>{icon}</Box>
-        <Typography variant="caption" fontWeight="bold" textAlign="center">{label}</Typography>
-        {subLabel && <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>{subLabel}</Typography>}
+const LayerBox = ({ number, title, content }: { number: number, title: string, content: string[] }) => (
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderLeft: 6, borderColor: 'primary.main', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2, flexShrink: 0 }}>
+            {number}
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1" fontWeight="bold">{title}</Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+                {content.map(c => <Chip key={c} label={c} size="small" variant="outlined" />)}
+            </Box>
+        </Box>
     </Paper>
 );
 
 const PhaseStep = ({ number, title, description, icon }: { number: number, title: string, description: string, icon: React.ReactNode }) => (
     <Box sx={{ mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-            <Box sx={{ mr: 1, mt: 0.5, color: '#2e7d32' }}> {/* Green for CDC */}
+            <Box sx={{ mr: 1, mt: 0.5, color: '#1b5e20' }}> {/* Deep Green for CDC */}
                 {icon}
             </Box>
             <Box>
@@ -65,100 +62,60 @@ export const CDCStreaming: React.FC = () => {
             </Typography>
 
             <Grid container spacing={4}>
-                {/* Left Column: Strategy Overview */}
                 <Grid size={{ xs: 12, md: 5 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                        The Serverless Real-Time Data Strategy
+                        Strategy Overview
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <StrategyCard
-                            title="Primary Goal"
-                            content="Transform rigid, self-managed streaming and CDC systems into a scalable, serverless platform using a Refactor/Rebuild strategy."
-                        />
-                        <StrategyCard
-                            title="Strategic Imperative (CDC)"
-                            content="Replace traditional, agent-based CDC with Datastream, a fully managed, serverless service for low-latency replication from operational databases to BigQuery or Cloud Storage."
-                        />
-                        <StrategyCard
-                            title="Strategic Imperative (Messaging)"
-                            content="Standardize all application and IoT event streams on Pub/Sub to achieve a globally scalable, auto-scaling messaging backbone."
-                        />
-                        <StrategyCard
-                            title="Data Integrity Mandate"
-                            content="Use Dataflow for all in-stream processing (ETL/ELT) to ensure data quality and provide exactly-once processing semantics where critical."
-                        />
+                    <Paper sx={{ p: 2 }}>
+                        <List>
+                            <StrategyPoint text="Transform into a scalable, serverless platform using Refactor/Rebuild strategy" />
+                            <StrategyPoint text="Replace traditional CDC with Datastream (fully managed, serverless)" />
+                            <StrategyPoint text="Standardize application and IoT streams on Pub/Sub global messaging" />
+                            <StrategyPoint text="Use Dataflow for robust (exactly-once) in-stream ETL/ELT" />
+                        </List>
+                    </Paper>
+
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Core Services
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
+                            <Chip label="Datastream" color="success" />
+                            <Chip label="Pub/Sub" color="success" />
+                            <Chip label="Dataflow" color="success" />
+                        </Box>
                     </Box>
                 </Grid>
 
-                {/* Right Column: Architecture Diagram */}
                 <Grid size={{ xs: 12, md: 7 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                         Technical Process & Key Tools
                     </Typography>
-                    <Paper variant="outlined" sx={{ p: 4, bgcolor: '#fafafa', borderRadius: 2, position: 'relative' }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <LayerBox number={1} title="Sources" content={['Operational DB', 'Apps / IoT']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
 
-                        <Typography variant="caption" sx={{ position: 'absolute', top: 10, right: 10, color: 'text.secondary', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                            <MonitorHeartIcon fontSize="small" /> Cloud Monitoring Context
-                        </Typography>
+                            <LayerBox number={2} title="Ingestion" content={['Datastream', 'Pub/Sub']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
 
-                        <Grid container spacing={4} alignItems="center" justifyContent="center">
-                            {/* Inputs */}
-                            <Grid size={{ xs: 3 }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                    <ArchitectureNode icon={<StorageIcon />} label="Operational DB" />
-                                    <ArchitectureNode icon={<SettingsInputAntennaIcon />} label="Apps / IoT" />
-                                </Box>
-                            </Grid>
+                            <LayerBox number={3} title="Transformation" content={['Dataflow']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
 
-                            {/* Ingestion */}
-                            <Grid size={{ xs: 3 }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <ArrowForwardIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                                        <ArchitectureNode icon={<SyncAltIcon />} label="Datastream" color="success" />
-                                    </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <ArrowForwardIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                                        <ArchitectureNode icon={<RouterIcon />} label="Pub/Sub" color="success" />
-                                    </Box>
-                                </Box>
-                            </Grid>
-
-                            {/* Transformation */}
-                            <Grid size={{ xs: 3 }}>
-                                <Box sx={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <ArrowForwardIcon sx={{ mr: 1, color: 'text.secondary' }} />
-                                    <Paper elevation={3} sx={{ p: 2, border: '2px solid #2e7d32', bgcolor: '#e8f5e9', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <WavesIcon color="success" fontSize="large" />
-                                        <Typography variant="subtitle2" fontWeight="bold">Dataflow</Typography>
-                                        <Typography variant="caption">Transformation</Typography>
-                                    </Paper>
-                                    <ArrowForwardIcon sx={{ ml: 1, color: 'text.secondary' }} />
-                                </Box>
-                            </Grid>
-
-                            {/* Outputs */}
-                            <Grid size={{ xs: 3 }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                    <ArchitectureNode icon={<AssessmentIcon />} label="BigQuery" />
-                                    <ArchitectureNode icon={<CloudIcon />} label="Cloud Storage" />
-                                </Box>
-                            </Grid>
-                        </Grid>
-
-                        <Box sx={{ mt: 4 }}>
-                            <Typography variant="subtitle2" gutterBottom fontWeight="bold">Core Services/Tools</Typography>
-                            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                                <Chip label="Datastream: Serverless CDC" color="success" variant="outlined" />
-                                <Chip label="Pub/Sub: Global Messaging" color="success" variant="outlined" />
-                                <Chip label="Dataflow: Stream Processing" color="success" variant="outlined" />
-                            </Box>
+                            <LayerBox number={4} title="Storage & Analysis" content={['BigQuery', 'Cloud Storage']} />
                         </Box>
-                    </Paper>
+
+                        {/* Side Labels */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
+                            <Paper sx={{ p: 1, bgcolor: '#e8f5e9', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">Cloud Monitoring Context</Typography>
+                            </Paper>
+                        </Box>
+                    </Box>
                 </Grid>
             </Grid>
 
-            {/* NEW: Four-Phase Process Section */}
+            {/* Four-Phase Process Section */}
             <Box sx={{ mt: 8, mb: 6 }}>
                 <Typography variant="h4" gutterBottom sx={{ color: '#1b5e20', mb: 4, textAlign: 'center', fontWeight: 600 }}>
                     The Four-Phase Process for Real-Time Pipeline Migration

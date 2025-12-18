@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onDrawerToggle }) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, color: 'primary.main', fontWeight: 'bold' }}>
-                    Enterprise Migration Services-Process overview
+                    Enterprise Migration Services - Process overview
                 </Typography>
 
                 {/* User Menu */}

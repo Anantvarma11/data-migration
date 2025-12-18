@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import LoginPage from './components/auth/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Layout } from './components/common/Layout';
+import { Home } from './components/sections/Home';
 import { Dashboard } from './components/sections/Dashboard';
 import { TransactionalDB } from './components/sections/TransactionalDB';
 import { DataWarehouse } from './components/sections/DataWarehouse';
@@ -22,7 +23,8 @@ function App() {
                     <ProtectedRoute />
                 }>
                     <Route element={<Layout />}>
-                        <Route index element={<Dashboard />} />
+                        <Route index element={<Home />} />
+                        <Route path="dashboard" element={<Dashboard />} />
                         <Route path="transactional-db" element={<TransactionalDB />} />
                         <Route path="data-warehouse" element={<DataWarehouse />} />
                         <Route path="bulk-file-data" element={<BulkFileData />} />

@@ -1,52 +1,45 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Divider, Paper } from '@mui/material';
-import StorageIcon from '@mui/icons-material/Storage';
-import CloudIcon from '@mui/icons-material/Cloud';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Box, Typography, Grid, Paper, List, ListItem, ListItemIcon, ListItemText, Chip } from '@mui/material';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SearchIcon from '@mui/icons-material/Search';
 import DomainIcon from '@mui/icons-material/Domain';
 import CodeIcon from '@mui/icons-material/Code';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import SyncIcon from '@mui/icons-material/Sync';
+import StorageIcon from '@mui/icons-material/Storage';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
-const StrategyCard = ({ title, content }: { title: string, content: string }) => (
-    <Card sx={{ mb: 2, height: '100%' }}>
-        <CardContent>
-            <Typography variant="h6" color="primary" gutterBottom>
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {content}
-            </Typography>
-        </CardContent>
-    </Card>
+const StrategyPoint = ({ text }: { text: string }) => (
+    <ListItem>
+        <ListItemIcon>
+            <VerifiedUserIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+    </ListItem>
 );
 
-const AcceleratorCard = ({ title }: { title: string }) => (
-    <Card sx={{ textAlign: 'center', p: 2, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography variant="subtitle1" fontWeight="bold">
-            {title}
-        </Typography>
-    </Card>
-);
-
-const ArchitectureNode = ({ icon, label, subLabel }: { icon: React.ReactNode, label: string, subLabel?: string }) => (
-    <Paper elevation={3} sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 120, bgcolor: 'white' }}>
-        <Box sx={{ color: 'primary.main', mb: 1 }}>{icon}</Box>
-        <Typography variant="subtitle2" fontWeight="bold">{label}</Typography>
-        {subLabel && <Typography variant="caption" color="text.secondary">{subLabel}</Typography>}
+const LayerBox = ({ number, title, content }: { number: number, title: string, content: string[] }) => (
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderLeft: 6, borderColor: 'primary.main', display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2, flexShrink: 0 }}>
+            {number}
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1" fontWeight="bold">{title}</Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+                {content.map(c => <Chip key={c} label={c} size="small" variant="outlined" />)}
+            </Box>
+        </Box>
     </Paper>
 );
 
 const PhaseStep = ({ number, title, description, icon }: { number: number, title: string, description: string, icon: React.ReactNode }) => (
     <Box sx={{ mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
-            <Box sx={{ mr: 1, mt: 0.5, color: 'primary.main' }}>
+            <Box sx={{ mr: 1, mt: 0.5, color: '#00695c' }}> {/* Teal for Transactional DB */}
                 {icon}
             </Box>
             <Box>
@@ -69,79 +62,60 @@ export const TransactionalDB: React.FC = () => {
             </Typography>
 
             <Grid container spacing={4}>
-                {/* Left Column: Strategy Overview */}
                 <Grid size={{ xs: 12, md: 5 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                         Strategy Overview
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <StrategyCard
-                            title="Primary Goal"
-                            content="Move databases to managed services (Cloud SQL / AlloyDB) using a Replatform strategy with minimal downtime."
-                        />
-                        <StrategyCard
-                            title="Strategic Imperative"
-                            content="Mandate Change Data Capture (CDC) replication for near-zero downtime cutover with dedicated validation for absolute data fidelity."
-                        />
-                        <StrategyCard
-                            title="Heterogeneous Migrations"
-                            content="Leverage Gemini in Database Migration Service (DMS) to automate high-risk conversion of proprietary schemas, stored procedures, and code."
-                        />
+                    <Paper sx={{ p: 2 }}>
+                        <List>
+                            <StrategyPoint text="Move databases to managed services (Cloud SQL / AlloyDB) using a Replatform strategy" />
+                            <StrategyPoint text="Mandate Change Data Capture (CDC) replication for near-zero downtime" />
+                            <StrategyPoint text="Leverage Gemini in DMS for automated schema conversion" />
+                            <StrategyPoint text="Dedicated validation for absolute data fidelity" />
+                        </List>
+                    </Paper>
+
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Core Services
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
+                            <Chip label="Database Migration Service (DMS)" color="primary" />
+                            <Chip label="Cloud SQL" color="primary" />
+                            <Chip label="AlloyDB" color="primary" />
+                        </Box>
                     </Box>
                 </Grid>
 
-                {/* Right Column: Architecture Diagram */}
                 <Grid size={{ xs: 12, md: 7 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                         Architecture Process
                     </Typography>
-                    <Paper variant="outlined" sx={{ p: 4, bgcolor: '#fafafa', borderRadius: 2 }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <LayerBox number={1} title="On-Prem RDBMS" content={['Source DB']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
 
-                            {/* On-Prem RDBMS */}
-                            <ArchitectureNode
-                                icon={<StorageIcon fontSize="large" />}
-                                label="On-Prem RDBMS"
-                            />
+                            <LayerBox number={2} title="Ingestion & Conversion" content={['DMS + Gemini AI', 'Automated Conversion']} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center' }}><ArrowDownwardIcon color="action" /></Box>
 
-                            <ArrowDownwardIcon color="action" />
-
-                            {/* DMS + Gemini */}
-                            <ArchitectureNode
-                                icon={<SmartToyIcon fontSize="large" color="secondary" />}
-                                label="DMS + Gemini AI"
-                                subLabel="Automated Conversion"
-                            />
-
-                            <ArrowDownwardIcon color="action" />
-
-                            {/* Cloud Targets */}
-                            <Box sx={{ display: 'flex', gap: 4 }}>
-                                <ArchitectureNode
-                                    icon={<CloudIcon fontSize="large" />}
-                                    label="Cloud SQL"
-                                />
-                                <ArchitectureNode
-                                    icon={<StorageIcon fontSize="large" />}
-                                    label="AlloyDB"
-                                    subLabel="PostgreSQL Compatible"
-                                />
-                            </Box>
-
-                            <Divider sx={{ width: '100%', my: 2 }} />
-                            <Typography variant="caption" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <Box component="span" sx={{ width: 8, height: 8, bgcolor: 'success.main', borderRadius: '50%' }} />
-                                Cloud Monitoring & Logging
-                            </Typography>
+                            <LayerBox number={3} title="Managed Database" content={['Cloud SQL', 'AlloyDB']} />
                         </Box>
-                    </Paper>
+
+                        {/* Side Labels */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
+                            <Paper sx={{ p: 1, bgcolor: '#e3f2fd', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">Cloud Monitoring & Logging</Typography>
+                            </Paper>
+                        </Box>
+                    </Box>
                 </Grid>
             </Grid>
 
-            {/* NEW: Four-Phase Process Section */}
+            {/* Four-Phase Process Section */}
             <Box sx={{ mt: 8, mb: 6 }}>
-                <Typography variant="h4" gutterBottom sx={{ color: '#004d40', mb: 4, textAlign: 'center', fontWeight: 600 }}>
-                    The Four-Phase Process for Transactional Database Migration
+                <Typography variant="h4" gutterBottom sx={{ color: '#00695c', mb: 4, textAlign: 'center', fontWeight: 600 }}> {/* Teal Title */}
+                    Four-Phase Process for Transactional Database Migration
                 </Typography>
                 <Grid container spacing={4}>
                     {/* Phase 1 */}
@@ -152,14 +126,14 @@ export const TransactionalDB: React.FC = () => {
                             </Typography>
                             <PhaseStep
                                 number={1}
-                                title="Discovery & Assessment"
-                                description="Use Migration Center to collect metadata, assess technical fit for Cloud SQL/AlloyDB, and map dependencies."
+                                title="Inventory & Assessment"
+                                description="Run Migration Center discovery to map database dependencies and performance profiles."
                                 icon={<SearchIcon />}
                             />
                             <PhaseStep
                                 number={2}
-                                title="Foundation Readiness"
-                                description="Provision GCP Landing Zone, Hybrid Connectivity (Dedicated Interconnect), and IAM roles for DMS."
+                                title="Landing Zone & Connectivity"
+                                description="Establish a secure landing zone with Dedicated Interconnect and necessary IAM policies."
                                 icon={<DomainIcon />}
                             />
                         </Paper>
@@ -169,25 +143,19 @@ export const TransactionalDB: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                         <Paper elevation={0} sx={{ p: 2, height: '100%', bgcolor: '#e0f2f1', borderTop: '4px solid #00897b' }}>
                             <Typography variant="h6" gutterBottom sx={{ color: '#00695c', fontWeight: 'bold', mb: 3 }}>
-                                Phase 2: Conversion & Replication Setup
+                                Phase 2: Conversion & Schema Setup
                             </Typography>
                             <PhaseStep
                                 number={3}
-                                title="Schema & Code Conversion"
-                                description="For heterogeneous migrations, use the DMS conversion workspace with Gemini-assisted conversion to translate database code."
+                                title="Schema Conversion (Gemini)"
+                                description="Use DMS (Gemini-augmented) to convert schemas, stored procedures, and triggers to the target dialect."
                                 icon={<CodeIcon />}
                             />
                             <PhaseStep
                                 number={4}
-                                title="Target Provisioning (IaC)"
-                                description="Deploy the target Cloud SQL/AlloyDB instance using Terraform."
+                                title="Initial Load & CDC Setup"
+                                description="Perform the initial snapshot load and configure continuous Change Data Capture (CDC) replication."
                                 icon={<CloudUploadIcon />}
-                            />
-                            <PhaseStep
-                                number={5}
-                                title="DMS Setup"
-                                description="Configure the DMS job for serverless replication via a secure private IP path."
-                                icon={<SyncIcon />}
                             />
                         </Paper>
                     </Grid>
@@ -196,24 +164,24 @@ export const TransactionalDB: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                         <Paper elevation={0} sx={{ p: 2, height: '100%', bgcolor: '#e0f2f1', borderTop: '4px solid #00897b' }}>
                             <Typography variant="h6" gutterBottom sx={{ color: '#00695c', fontWeight: 'bold', mb: 3 }}>
-                                Phase 3: Execution & Cutover
+                                Phase 3: Execution & Verification
                             </Typography>
                             <PhaseStep
-                                number={6}
-                                title="Initial Load & CDC"
-                                description="DMS performs initial backfill and transitions to continuous replication."
-                                icon={<StorageIcon />}
+                                number={5}
+                                title="Replication Monitoring"
+                                description="Monitor replication lag to ensure the target DB is in sync with the source."
+                                icon={<SyncIcon />}
                             />
                             <PhaseStep
-                                number={7}
-                                title="Pre-Cutover Validation (MANDATORY)"
-                                description="Run DMS built-in validation and application-level read-only tests against the replica."
+                                number={6}
+                                title="Data Validation"
+                                description="Execute rigorous validation queries (row counts, checksums) to guarantee data fidelity."
                                 icon={<FactCheckIcon />}
                             />
                             <PhaseStep
-                                number={8}
-                                title="Cutover & Rollback"
-                                description="Stop writes, perform final sync, re-point application connection strings. Have a tested rollback plan ready."
+                                number={7}
+                                title="Cutover"
+                                description="Stop writes to source, wait for drain, and point apps to the new Cloud SQL/AlloyDB instance."
                                 icon={<ToggleOnIcon />}
                             />
                         </Paper>
@@ -226,33 +194,25 @@ export const TransactionalDB: React.FC = () => {
                                 Phase 4: Optimization & Run State
                             </Typography>
                             <PhaseStep
-                                number={9}
-                                title="Operational Handover & AIOps"
-                                description="Integrate the new database into Cloud Monitoring/Logging. Configure AIOps for anomaly detection."
+                                number={8}
+                                title="Database Optimization"
+                                description="Tune database flags, indexes, and vacuum settings for the new cloud environment."
                                 icon={<SettingsSuggestIcon />}
                             />
                             <PhaseStep
-                                number={10}
-                                title="FinOps & Decommissioning"
-                                description="Implement continuous right-sizing. Define and meet strict criteria to retire the legacy on-premises database to realize TCO reduction."
+                                number={9}
+                                title="Cost Management (FinOps)"
+                                description="Monitor resource utilization and right-size instances to optimize spending."
                                 icon={<MonetizationOnIcon />}
+                            />
+                            <PhaseStep
+                                number={10}
+                                title="Backup & DR Policy"
+                                description="Enable automated backups and High Availability (HA) configurations as per SLAs."
+                                icon={<StorageIcon />}
                             />
                         </Paper>
                     </Grid>
-                </Grid>
-            </Box>
-
-            {/* Accelerators Section */}
-            <Box sx={{ mt: 6 }}>
-                <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                    Google-Native Accelerators
-                </Typography>
-                <Grid container spacing={2}>
-                    {['Database Migration Service (DMS)', 'Gemini in DMS', 'Migration Center', 'Cloud Operations Suite'].map((tool) => (
-                        <Grid size={{ xs: 12, sm: 6, md: 3 }} key={tool}>
-                            <AcceleratorCard title={tool} />
-                        </Grid>
-                    ))}
                 </Grid>
             </Box>
         </Box>

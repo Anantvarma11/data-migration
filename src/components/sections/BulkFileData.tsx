@@ -1,9 +1,7 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Paper, Container, Chip } from '@mui/material';
-import FolderIcon from '@mui/icons-material/Folder';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import CloudIcon from '@mui/icons-material/Cloud';
+import { Box, Typography, Grid, Paper, List, ListItem, ListItemIcon, ListItemText, Chip } from '@mui/material';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SourceIcon from '@mui/icons-material/Source';
 import TimerIcon from '@mui/icons-material/Timer';
 import CompressIcon from '@mui/icons-material/Compress';
@@ -15,24 +13,29 @@ import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
-const StrategyCard = ({ title, content }: { title: string, content: string }) => (
-    <Card sx={{ mb: 2, height: '100%' }}>
-        <CardContent>
-            <Typography variant="h6" color="primary" gutterBottom>
-                {title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-                {content}
-            </Typography>
-        </CardContent>
-    </Card>
+const StrategyPoint = ({ text }: { text: string }) => (
+    <ListItem>
+        <ListItemIcon>
+            <VerifiedUserIcon color="secondary" />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+    </ListItem>
 );
 
-const Node = ({ label, icon, color = 'default' }: { label: string, icon: React.ReactNode, color?: 'default' | 'primary' | 'secondary' }) => (
-    <Paper elevation={3} sx={{ p: 2, minWidth: 140, textAlign: 'center', bgcolor: color === 'primary' ? 'primary.main' : 'white', color: color === 'primary' ? 'white' : 'text.primary' }}>
-        <Box sx={{ mb: 1, color: color === 'primary' ? 'white' : 'inherit' }}>{icon}</Box>
-        <Typography variant="subtitle2" fontWeight="bold">{label}</Typography>
+const LayerBox = ({ number, title, content, color = 'primary' }: { number: number, title: string, content: React.ReactNode, color?: 'primary' | 'secondary' }) => (
+    <Paper elevation={2} sx={{ p: 2, mb: 2, borderLeft: 6, borderColor: `${color}.main`, display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: `${color}.main`, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2, flexShrink: 0 }}>
+            {number}
+        </Box>
+        <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1" fontWeight="bold">{title}</Typography>
+            <Box sx={{ mt: 1 }}>
+                {content}
+            </Box>
+        </Box>
     </Paper>
 );
 
@@ -65,25 +68,26 @@ export const BulkFileData: React.FC = () => {
                 {/* Left Column: Strategy Overview */}
                 <Grid size={{ xs: 12, md: 5 }}>
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                        The Network-First, Integrity-Second Strategy
+                        Strategy Overview
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <StrategyCard
-                            title="Primary Goal"
-                            content="Move massive volumes of unstructured data to Cloud Storage using a Rehost/Retain strategy that prioritizes network performance and data integrity."
-                        />
-                        <StrategyCard
-                            title="Strategic Imperative (Bandwidth Management)"
-                            content="Data volume dictates the path. Choose Storage Transfer Service (STS) [Online] for high-speed networks or Transfer Appliance (TA) [Offline] for multi-petabyte datasets that exceed WAN limits."
-                        />
-                        <StrategyCard
-                            title="Critical Performance Benchmark"
-                            content="The source I/O subsystem must support the transfer. Mandate that source read throughput is at least 1.5x the desired upload bandwidth, validated with tools like Fio to prevent bottlenecks."
-                        />
-                        <StrategyCard
-                            title="Resilience"
-                            content="For online transfers, the STS agent architecture must be resilient, starting with at least three agents to ensure fault tolerance."
-                        />
+                    <Paper sx={{ p: 2 }}>
+                        <List>
+                            <StrategyPoint text="Move massive volumes of unstructured data to Cloud Storage prioritizing network performance" />
+                            <StrategyPoint text="Choose STS (Online) or TA (Offline) based on bandwidth and volume" />
+                            <StrategyPoint text="Mandate source read throughput >= 1.5x of desired upload bandwidth" />
+                            <StrategyPoint text="Deploy at least 3 STS agents for high-performance online transfers" />
+                        </List>
+                    </Paper>
+
+                    <Box sx={{ mt: 4 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Core Tools
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 3 }}>
+                            <Chip label="Storage Transfer Service (STS)" color="primary" />
+                            <Chip label="Transfer Appliance (TA)" color="secondary" />
+                            <Chip label="NetApp Volumes" color="primary" />
+                        </Box>
                     </Box>
                 </Grid>
 
@@ -92,53 +96,63 @@ export const BulkFileData: React.FC = () => {
                     <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                         Architecture & Data Flow
                     </Typography>
-                    <Paper variant="outlined" sx={{ p: 4, bgcolor: '#f8f9fa', borderRadius: 2 }}>
-                        <Container maxWidth="md" disableGutters>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <LayerBox
+                                number={1}
+                                title="On-Prem FS"
+                                content={<Chip label="NFS / SMB / HDFS" variant="outlined" />}
+                            />
 
-                                {/* Top */}
-                                <Node label="On-Prem FS" icon={<FolderIcon fontSize="large" />} />
+                            {/* Branching Visual */}
+                            <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
+                                <ArrowDownwardIcon color="action" />
+                            </Box>
 
-                                {/* Branching Lines - Simplified visuals */}
-                                <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderTop: '2px dashed #ccc', mt: 1 }} />
-
-                                {/* Middle Row */}
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '80%', mt: 1 }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography variant="caption" sx={{ mb: 1 }}>Online</Typography>
-                                        <Node label="Storage Transfer Service" icon={<CloudUploadIcon />} color="primary" />
+                            <Paper elevation={2} sx={{ p: 2, mb: 2, borderLeft: 6, borderColor: 'primary.main' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                    <Box sx={{ width: 32, height: 32, borderRadius: '50%', bgcolor: 'primary.main', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 2 }}>
+                                        2
                                     </Box>
-
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <Typography variant="caption" sx={{ mb: 1 }}>Offline</Typography>
-                                        <Node label="Transfer Appliance" icon={<LocalShippingIcon />} color="secondary" />
+                                    <Typography variant="subtitle1" fontWeight="bold">Transfer Method</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                                    <Box sx={{ textAlign: 'center' }}>
+                                        <Typography variant="caption" display="block">Online</Typography>
+                                        <Chip icon={<CloudUploadIcon />} label="STS" color="primary" variant="outlined" />
+                                    </Box>
+                                    <Box sx={{ borderLeft: '1px solid #ccc', height: 40, mx: 2 }} />
+                                    <Box sx={{ textAlign: 'center' }}>
+                                        <Typography variant="caption" display="block">Offline</Typography>
+                                        <Chip icon={<LocalShippingIcon />} label="Transfer Appliance" color="secondary" variant="outlined" />
                                     </Box>
                                 </Box>
+                            </Paper>
 
-                                {/* Converging Lines */}
-                                <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderBottom: '2px dashed #ccc', mb: 1 }} />
-
-                                {/* Bottom */}
-                                <Node label="Cloud Storage" icon={<CloudIcon fontSize="large" />} />
+                            <Box sx={{ display: 'flex', justifyContent: 'center', my: 1 }}>
+                                <ArrowDownwardIcon color="action" />
                             </Box>
 
-                            {/* Footer Stats */}
-                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 4, flexWrap: 'wrap' }}>
-                                <Chip label="Dedicated Interconnect" variant="outlined" />
-                                <Chip label="VPC Service Controls" variant="outlined" />
-                                <Chip label="Cloud Monitoring" variant="outlined" />
-                            </Box>
-                        </Container>
-
-                        <Typography variant="subtitle2" gutterBottom fontWeight="bold" sx={{ mt: 4 }}>
-                            Tools Implemented
-                        </Typography>
-                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                            <Chip label="Storage Transfer Service (STS)" color="primary" variant="outlined" />
-                            <Chip label="Transfer Appliance (TA)" color="secondary" variant="outlined" />
-                            <Chip label="NetApp Volumes / Cloud Native Qumulo" variant="outlined" />
+                            <LayerBox
+                                number={3}
+                                title="Cloud Storage"
+                                content={<Chip label="GCS Buckets" variant="outlined" />}
+                            />
                         </Box>
-                    </Paper>
+
+                        {/* Side Labels */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
+                            <Paper sx={{ p: 1, bgcolor: '#e3f2fd', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">Dedicated Interconnect</Typography>
+                            </Paper>
+                            <Paper sx={{ p: 1, bgcolor: '#e3f2fd', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">VPC Service Controls</Typography>
+                            </Paper>
+                            <Paper sx={{ p: 1, bgcolor: '#e3f2fd', width: 140, textAlign: 'center' }}>
+                                <Typography variant="caption" fontWeight="bold">Cloud Monitoring</Typography>
+                            </Paper>
+                        </Box>
+                    </Box>
                 </Grid>
             </Grid>
 
