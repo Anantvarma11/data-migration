@@ -4,7 +4,6 @@ import FolderIcon from '@mui/icons-material/Folder';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CloudIcon from '@mui/icons-material/Cloud';
-import SpeedIcon from '@mui/icons-material/Speed';
 import SourceIcon from '@mui/icons-material/Source';
 import TimerIcon from '@mui/icons-material/Timer';
 import CompressIcon from '@mui/icons-material/Compress';
@@ -17,12 +16,15 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
-const FeatureCard = ({ title, value, icon }: { title: string, value: string, icon: React.ReactNode }) => (
-    <Card sx={{ height: '100%' }}>
-        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <Box sx={{ color: 'primary.main', mb: 2 }}>{icon}</Box>
-            <Typography variant="h6" gutterBottom>{title}</Typography>
-            <Typography variant="body2" color="text.secondary">{value}</Typography>
+const StrategyCard = ({ title, content }: { title: string, content: string }) => (
+    <Card sx={{ mb: 2, height: '100%' }}>
+        <CardContent>
+            <Typography variant="h6" color="primary" gutterBottom>
+                {title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+                {content}
+            </Typography>
         </CardContent>
     </Card>
 );
@@ -59,90 +61,88 @@ export const BulkFileData: React.FC = () => {
                 The Network-First, Integrity-Second Strategy
             </Typography>
 
-            <Grid container spacing={4} sx={{ mb: 6 }}>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <FeatureCard
-                        title="Strategy"
-                        value="Rehost / Retain Strategy"
-                        icon={<FolderIcon fontSize="large" />}
-                    />
+            <Grid container spacing={4} sx={{ mb: 2 }}>
+                {/* Left Column: Strategy Overview */}
+                <Grid size={{ xs: 12, md: 5 }}>
+                    <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+                        The Network-First, Integrity-Second Strategy
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                        <StrategyCard
+                            title="Primary Goal"
+                            content="Move massive volumes of unstructured data to Cloud Storage using a Rehost/Retain strategy that prioritizes network performance and data integrity."
+                        />
+                        <StrategyCard
+                            title="Strategic Imperative (Bandwidth Management)"
+                            content="Data volume dictates the path. Choose Storage Transfer Service (STS) [Online] for high-speed networks or Transfer Appliance (TA) [Offline] for multi-petabyte datasets that exceed WAN limits."
+                        />
+                        <StrategyCard
+                            title="Critical Performance Benchmark"
+                            content="The source I/O subsystem must support the transfer. Mandate that source read throughput is at least 1.5x the desired upload bandwidth, validated with tools like Fio to prevent bottlenecks."
+                        />
+                        <StrategyCard
+                            title="Resilience"
+                            content="For online transfers, the STS agent architecture must be resilient, starting with at least three agents to ensure fault tolerance."
+                        />
+                    </Box>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <FeatureCard
-                        title="Decision"
-                        value="Online vs Offline Transfer"
-                        icon={<CloudUploadIcon fontSize="large" />}
-                    />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <FeatureCard
-                        title="Throughput"
-                        value="1.5× Benchmark (Fio)"
-                        icon={<SpeedIcon fontSize="large" />}
-                    />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <FeatureCard
-                        title="Resilience"
-                        value="STS Minimum 3 Agents"
-                        icon={<CloudIcon fontSize="large" />}
-                    />
+
+                {/* Right Column: Architecture Diagram */}
+                <Grid size={{ xs: 12, md: 7 }}>
+                    <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+                        Architecture & Data Flow
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 4, bgcolor: '#f8f9fa', borderRadius: 2 }}>
+                        <Container maxWidth="md" disableGutters>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+
+                                {/* Top */}
+                                <Node label="On-Prem FS" icon={<FolderIcon fontSize="large" />} />
+
+                                {/* Branching Lines - Simplified visuals */}
+                                <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderTop: '2px dashed #ccc', mt: 1 }} />
+
+                                {/* Middle Row */}
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '80%', mt: 1 }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Typography variant="caption" sx={{ mb: 1 }}>Online</Typography>
+                                        <Node label="Storage Transfer Service" icon={<CloudUploadIcon />} color="primary" />
+                                    </Box>
+
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                        <Typography variant="caption" sx={{ mb: 1 }}>Offline</Typography>
+                                        <Node label="Transfer Appliance" icon={<LocalShippingIcon />} color="secondary" />
+                                    </Box>
+                                </Box>
+
+                                {/* Converging Lines */}
+                                <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderBottom: '2px dashed #ccc', mb: 1 }} />
+
+                                {/* Bottom */}
+                                <Node label="Cloud Storage" icon={<CloudIcon fontSize="large" />} />
+                            </Box>
+
+                            {/* Footer Stats */}
+                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 4, flexWrap: 'wrap' }}>
+                                <Chip label="Dedicated Interconnect" variant="outlined" />
+                                <Chip label="VPC Service Controls" variant="outlined" />
+                                <Chip label="Cloud Monitoring" variant="outlined" />
+                            </Box>
+                        </Container>
+
+                        <Typography variant="subtitle2" gutterBottom fontWeight="bold" sx={{ mt: 4 }}>
+                            Tools Implemented
+                        </Typography>
+                        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                            <Chip label="Storage Transfer Service (STS)" color="primary" variant="outlined" />
+                            <Chip label="Transfer Appliance (TA)" color="secondary" variant="outlined" />
+                            <Chip label="NetApp Volumes / Cloud Native Qumulo" variant="outlined" />
+                        </Box>
+                    </Paper>
                 </Grid>
             </Grid>
 
-            {/* Diagram Section */}
-            <Typography variant="h5" gutterBottom>
-                Architecture & Data Flow
-            </Typography>
-            <Paper variant="outlined" sx={{ p: 4, bgcolor: '#f8f9fa', mb: 6 }}>
-                <Container maxWidth="md">
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
-
-                        {/* Top */}
-                        <Node label="On-Prem FS" icon={<FolderIcon fontSize="large" />} />
-
-                        {/* Branching Lines - Simplified visuals */}
-                        <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderTop: '2px dashed #ccc', mt: 1 }} />
-
-                        {/* Middle Row */}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '80%', mt: 1 }}>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Typography variant="caption" sx={{ mb: 1 }}>Online</Typography>
-                                <Node label="Storage Transfer Service" icon={<CloudUploadIcon />} color="primary" />
-                            </Box>
-
-                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Typography variant="caption" sx={{ mb: 1 }}>Offline</Typography>
-                                <Node label="Transfer Appliance" icon={<LocalShippingIcon />} color="secondary" />
-                            </Box>
-                        </Box>
-
-                        {/* Converging Lines */}
-                        <Box sx={{ width: '60%', height: 40, borderLeft: '2px dashed #ccc', borderRight: '2px dashed #ccc', borderBottom: '2px dashed #ccc', mb: 1 }} />
-
-                        {/* Bottom */}
-                        <Node label="Cloud Storage" icon={<CloudIcon fontSize="large" />} />
-                    </Box>
-
-                    {/* Footer Stats */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, mt: 4 }}>
-                        <Chip label="Dedicated Interconnect" variant="outlined" />
-                        <Chip label="VPC Service Controls" variant="outlined" />
-                        <Chip label="Cloud Monitoring" variant="outlined" />
-                    </Box>
-                </Container>
-            </Paper>
-
-            <Typography variant="h5" gutterBottom>
-                Tools Implemented
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2 }}>
-                <Card sx={{ p: 2 }}>Storage Transfer Service (STS)</Card>
-                <Card sx={{ p: 2 }}>Transfer Appliance (TA)</Card>
-                <Card sx={{ p: 2 }}>NetApp Volumes / Cloud Native Qumulo</Card>
-            </Box>
-
-            {/* NEW: Four-Phase Process Section */}
+            {/* Four-Phase Process Section */}
             <Box sx={{ mt: 8, mb: 6 }}>
                 <Typography variant="h4" gutterBottom sx={{ color: '#b71c1c', mb: 4, textAlign: 'center', fontWeight: 600 }}> {/* Deep Brown/Red Title */}
                     The Four-Phase Process for Petabyte-Scale Data Transfer
