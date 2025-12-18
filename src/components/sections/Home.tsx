@@ -7,7 +7,7 @@ export const Home: React.FC = () => {
             {/* First Image: Summary */}
             <Box
                 component="img"
-                src="/epath-summary.png"
+                src="/epath-summary-v2.png"
                 alt="ePathUSA Summary"
                 sx={{
                     width: '100%',
