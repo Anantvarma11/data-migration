@@ -1,174 +1,88 @@
-import { createTheme, alpha } from '@mui/material/styles';
-
-declare module '@mui/material/styles' {
-  interface TypeBackground {
-    subtle: string;
-  }
-}
+import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#1a73e8', // Google Blue
-      light: '#4285f4',
-      dark: '#0d47a1',
+      main: '#1976d2', // Google Cloud Blue
     },
     secondary: {
-      main: '#34a853', // Google Green
-    },
-    error: {
-      main: '#d93025',
-    },
-    warning: {
-      main: '#f9ab00',
-    },
-    info: {
-      main: '#1155cc',
-    },
-    success: {
-      main: '#1e8e3e',
+      main: '#4caf50',
     },
     background: {
-      default: '#f8f9fa', // Cool gray background
+      default: '#f5f5f5',
       paper: '#ffffff',
-      subtle: '#f1f3f4',
     },
-    text: {
-      primary: '#202124',
-      secondary: '#5f6368',
+    error: {
+      main: '#d32f2f',
     },
-    divider: '#dadce0',
+    warning: {
+      main: '#ff9800',
+    },
+    info: {
+      main: '#0288d1',
+    },
+    success: {
+      main: '#2e7d32',
+    },
+    // Custom accent colors if needed in SxProps
   },
   typography: {
-    fontFamily: '"Google Sans", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: { fontWeight: 400, letterSpacing: -0.5 },
-    h2: { fontWeight: 400, letterSpacing: -0.5 },
-    h3: { fontWeight: 400 },
-    h4: { fontWeight: 400, letterSpacing: 0.25 },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500, letterSpacing: 0.15 },
-    subtitle1: { fontWeight: 500 },
-    button: { textTransform: 'none', fontWeight: 500 },
-    body2: { letterSpacing: 0.2 },
-  },
-  shape: {
-    borderRadius: 8,
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontWeight: 500,
+    },
+    h2: {
+      fontWeight: 500,
+    },
+    h4: {
+      fontWeight: 600,
+      color: '#1565c0', // Darker blue for headers
+    },
+    h5: {
+      fontWeight: 600,
+    },
+    h6: {
+      fontWeight: 600,
+    },
+    button: {
+      textTransform: 'none', // Enterprise style often prefers no all-caps
+    },
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          backgroundColor: '#f8f9fa',
-          scrollbarWidth: 'thin',
-          '&::-webkit-scrollbar': {
-            width: '8px',
-            height: '8px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#dadce0',
-            borderRadius: '4px',
-          },
-        },
-      },
-    },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          border: '1px solid #dadce0',
-          boxShadow: 'none',
+          borderRadius: 8,
+          boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1), 0px 4px 5px 0px rgba(0,0,0,0.08), 0px 1px 10px 0px rgba(0,0,0,0.06)', // Elevation 1 equivalent
+          transition: 'box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out',
           '&:hover': {
-            borderColor: '#1a73e8',
-            boxShadow: '0 4px 12px rgba(26,115,232,0.1)',
+            boxShadow: '0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)', // Elevation 3 equivalent
+            transform: 'translateY(-2px)',
           },
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
-        root: {
-          border: '1px solid #dadce0',
-          boxShadow: 'none',
-        },
-        elevation1: {
-          boxShadow: 'none',
-        },
         rounded: {
-          borderRadius: 12,
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 6,
-          boxShadow: 'none',
-          padding: '8px 20px',
-          '&:hover': {
-            boxShadow: '0 1px 2px rgba(60,64,67,0.3)',
-          },
-        },
-        contained: {
-          '&:hover': {
-            boxShadow: '0 1px 3px 1px rgba(60,64,67,0.15)',
-          },
-        },
-      },
-      defaultProps: {
-        disableElevation: true,
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: 500,
-        },
-        filled: {
-          border: '1px solid transparent',
-        },
-        outlined: {
-          border: '1px solid #dadce0',
-          backgroundColor: '#ffffff',
-        },
-      },
+          borderRadius: 8,
+        }
+      }
     },
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          borderRadius: '0 24px 24px 0', // Google style sidebar tabs
-          margin: '4px 0',
-          paddingLeft: 24,
+          borderRadius: 8,
+          margin: '4px 8px',
           '&.Mui-selected': {
-            backgroundColor: alpha('#1a73e8', 0.1),
-            color: '#1a73e8',
+            backgroundColor: 'rgba(25, 118, 210, 0.08)',
             '&:hover': {
-              backgroundColor: alpha('#1a73e8', 0.15),
-            },
-            '& .MuiListItemIcon-root': {
-              color: '#1a73e8',
+              backgroundColor: 'rgba(25, 118, 210, 0.12)',
             },
           },
         },
       },
     },
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#ffffff', // White app bar
-          color: '#5f6368',
-          borderBottom: '1px solid #dadce0',
-          boxShadow: 'none',
-        },
-      },
-    },
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          borderRight: 'none',
-          backgroundColor: '#ffffff',
-        }
-      }
-    }
   },
 });

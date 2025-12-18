@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onDrawerToggle }) => {
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                         >
-                            <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Avatar sx={{ bgcolor: 'secondary.main' }}>
                                 {getInitials(user.displayName)}
                             </Avatar>
                         </IconButton>

@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import { MigrationProvider } from './context/MigrationContext';
 import LoginPage from './components/auth/LoginPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Layout } from './components/common/Layout';
@@ -13,28 +12,26 @@ import { LiftAndShift } from './components/sections/LiftAndShift';
 function App() {
     return (
         <AuthProvider>
-            <MigrationProvider>
-                <Routes>
-                    {/* Public Route */}
-                    <Route path="/login" element={<LoginPage />} />
+            <Routes>
+                {/* Public Route */}
+                <Route path="/login" element={<LoginPage />} />
 
-                    {/* Protected Routes */}
-                    <Route path="/" element={
-                        <ProtectedRoute />
-                    }>
-                        <Route element={<Layout />}>
-                            <Route index element={<Dashboard />} />
-                            <Route path="transactional-db/:id?" element={<TransactionalDB />} />
-                            <Route path="data-warehouse/:id?" element={<DataWarehouse />} />
-                            <Route path="bulk-file-data/:id?" element={<BulkFileData />} />
-                            <Route path="lift-and-shift/:id?" element={<LiftAndShift />} />
-                        </Route>
+                {/* Protected Routes */}
+                <Route path="/" element={
+                    <ProtectedRoute />
+                }>
+                    <Route element={<Layout />}>
+                        <Route index element={<Dashboard />} />
+                        <Route path="transactional-db" element={<TransactionalDB />} />
+                        <Route path="data-warehouse" element={<DataWarehouse />} />
+                        <Route path="bulk-file-data" element={<BulkFileData />} />
+                        <Route path="lift-and-shift" element={<LiftAndShift />} />
                     </Route>
+                </Route>
 
-                    {/* Catch all - redirect to login */}
-                    <Route path="*" element={<Navigate to="/login" replace />} />
-                </Routes>
-            </MigrationProvider>
+                {/* Catch all - redirect to login */}
+                <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
         </AuthProvider>
     );
 }
